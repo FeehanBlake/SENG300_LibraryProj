@@ -1,10 +1,13 @@
 package ui;
 
+import bookHandling.Book;
+import algorithms.Search;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List; //needed to import had bug - duh
 
 public class BookCatalogFrame extends JPanel implements ActionListener {
 
@@ -28,10 +31,10 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
         this.frame = frame;
 
         this.setLayout(null);
-        this.setBackground(new Color(255, 220, 190));
+        this.setBackground(new Color(233, 218, 189));
 
         //JLabels
-        topBorderLabel = new JLabel("║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║");
+        topBorderLabel = new JLabel("                  ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║");
         topBorderLabel.setHorizontalAlignment(JLabel.CENTER);
         topBorderLabel.setFont(new Font("Serif", Font.PLAIN, 30));
         topBorderLabel.setBounds(0, 10, 800, 40);
@@ -50,7 +53,7 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
 
         sortLabel = new JLabel("Sort Order By: ");
         sortLabel.setFont(new Font("Serif", Font.PLAIN, 20));
-        sortLabel.setBounds(50, 160, 120, 30);
+        sortLabel.setBounds(50, 160, 200, 30);
         sortLabel.setForeground(new Color(100, 65, 35));
 
         bottomBorderLabel = new JLabel("║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║");
@@ -63,14 +66,14 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
         searchTextField = new JTextField();
         searchTextField.setFont(new Font("Serif", Font.PLAIN, 20));
         searchTextField.setBounds(160, 120, 200, 30);
-        searchTextField.setBackground(new Color(255, 220, 190));
+        searchTextField.setBackground(new Color(233, 218, 189));
         searchTextField.setForeground(new Color(100, 65, 35));
         searchTextField.setBorder(new BevelBorder(BevelBorder.LOWERED));
 
         searchComboBox = new JComboBox<>();
         searchComboBox.setFont(new Font("Serif", Font.PLAIN, 20));
         searchComboBox.setBounds(370,120,130,30);
-        searchComboBox.setBackground(new Color(255, 220, 190));
+        searchComboBox.setBackground(new Color(233, 218, 189));
         searchComboBox.setForeground(new Color(100, 65, 35));
         searchComboBox.addItem("Book ID");
         searchComboBox.addItem("ISBN");
@@ -79,17 +82,17 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
         searchButton.addActionListener(this);
         searchButton.setFont(new Font("Serif", Font.PLAIN, 20));
         searchButton.setBounds(510,120,110,30);
-        searchButton.setBackground(new Color(255, 220, 190));
-        searchButton.setForeground(new Color(100, 65, 35));
+        searchButton.setForeground(new Color(233, 218, 189));
+        searchButton.setBackground(new Color(100, 65, 35));
         searchButton.setBorder(new BevelBorder(BevelBorder.RAISED));
 
         //Sort Feature
         sortComboBox = new JComboBox<>();
         sortComboBox.setFont(new Font("Serif", Font.PLAIN, 20));
-        sortComboBox.setBounds(120,160,180,30);
-        sortComboBox.setBackground(new Color(255, 220, 190));
+        sortComboBox.setBounds(180,160,320,30);
+        sortComboBox.setBackground(new Color(233, 218, 189));
         sortComboBox.setForeground(new Color(100, 65, 35));
-        sortComboBox.addItem("Author (ascending");
+        sortComboBox.addItem("Author (ascending)");
         sortComboBox.addItem("Author (descending)");
         sortComboBox.addItem("Publication Year (ascending)");
         sortComboBox.addItem("Publication Year (descending)");
@@ -97,30 +100,28 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
         sortButton = new JButton("Sort");
         sortButton.addActionListener(this);
         sortButton.setFont(new Font("Serif", Font.PLAIN, 20));
-        sortButton.setBounds(470,160,110,30);
-        sortButton.setBackground(new Color(255, 220, 190));
-        sortButton.setForeground(new Color(100, 65, 35));
+        sortButton.setBounds(510,160,110,30);
+        sortButton.setForeground(new Color(233, 218, 189));
+        sortButton.setBackground(new Color(100, 65, 35));
         sortButton.setBorder(new BevelBorder(BevelBorder.RAISED));
 
         //Catalog Display
         catalogTextArea = new JTextArea();
         catalogTextArea.setFont(new Font("Serif", Font.PLAIN, 16));
-        catalogTextArea.setBackground(new Color(255, 220, 190));
+        catalogTextArea.setBackground(new Color(233, 218, 189));
         catalogTextArea.setForeground(new Color(100, 65, 35));
         catalogTextArea.setBorder(new BevelBorder(BevelBorder.LOWERED));
         catalogTextArea.setEditable(false);
-        catalogScrollPane = new JScrollPane(catalogTextArea);
-        catalogScrollPane.setBackground(new Color(255, 220, 190));
-        catalogScrollPane.setForeground(new Color(100, 65, 35));
-        catalogScrollPane.setBounds(50,250,700,270);
+        catalogScrollPane = new JScrollPane(catalogTextArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        catalogScrollPane.setBounds(50,200,700,270);
 
         //Return to menu button
         backButton = new JButton("❮❮ Return to Menu");
         backButton.addActionListener(this);
         backButton.setFont(new Font("Serif", Font.PLAIN, 20));
-        backButton.setBounds(300,490,200,40);
-        backButton.setBackground(new Color(255, 220, 190));
-        backButton.setForeground(new Color(100, 65, 35));
+        backButton.setBounds(0,13,200,40);
+        backButton.setForeground(new Color(233, 218, 189));
+        backButton.setBackground(new Color(100, 65, 35));
         backButton.setBorder(new BevelBorder(BevelBorder.RAISED));
 
         this.add(topBorderLabel);
@@ -137,14 +138,75 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
         this.add(backButton);
         this.setVisible(true);
 
+        //Calls how we are to display books in catalog text area
+        displayBooks();
+
+    }
+    private void displayBooks(){
+        List<Book> books = frame.getBooks();
+        int i;
+
+        catalogTextArea.setText(""); //clean slate first
+
+        for (i =0; i < books.size(); ++i) {
+            Book book = books.get(i);
+
+            catalogTextArea.append("Title: " + book.getTitle() + "\n");
+            catalogTextArea.append("Author: " + book.getAuthors() + "\n");
+            catalogTextArea.append("Book ID: " + book.getBook_id() + "\n");
+            catalogTextArea.append("ISBN: " + book.getIsbn() + "\n");
+            catalogTextArea.append("Publication Year: " + book.getOriginal_publication_year() + "\n");
+            catalogTextArea.append("Average Rating: " + book.getAverage_rating() + "\n");
+            catalogTextArea.append("*****************************************\n");
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchButton){
             String searchText = searchTextField.getText();
             String searchAction = searchComboBox.getSelectedItem().toString();
+            List<Book> books = frame.getBooks();
+            Book result = null; //empty for if/when its found
 
-            JOptionPane.showMessageDialog(null, "Search Option: " + searchAction + "Search Text: " + searchText, "Search Result: Add result", JOptionPane.INFORMATION_MESSAGE);
+            if (searchAction.equals("Book ID")){
+                try {
+                    int bookID = Integer.parseInt(searchText); //only as type Integer
+
+                    //choosing search method based on datatype choice from user
+                    if (frame.getDataStructureChoice().equals("ArrayList")){
+                        result = Search.binarySearchBooks(books, bookID);
+                    }
+                    if (frame.getDataStructureChoice().equals("LinkedList")){
+                        result = Search.linearSearchBooks(books, bookID);
+                    }
+                }
+                catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Please enter a valid Book ID", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            if (searchAction.equals("ISBN")){
+                //choosing search method based on datatype choice from user
+                if (frame.getDataStructureChoice().equals("ArrayList")){
+                    result = Search.binarySearchBooks(books, searchText);
+                }
+                if (frame.getDataStructureChoice().equals("LinkedList")){
+                    result = Search.linearSearchBooks(books, searchText);
+                }
+            }
+            if (result != null){
+                JOptionPane.showMessageDialog(null,
+                        "Title: " + result.getTitle() + "\n"
+                + "Author: " + result.getAuthors() + "\n"
+                + "Book ID: " + result.getBook_id() + "\n"
+                + "ISBN: " + result.getIsbn() + "\n"
+                + "Publication Year: " + result.getOriginal_publication_year() + "\n"
+                + "Average Rating: " + result.getAverage_rating(), "Search Results", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+            else {
+                JOptionPane.showMessageDialog(null, "Not Found", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
         if (e.getSource() == sortButton){
             String sortAction = sortComboBox.getSelectedItem().toString();

@@ -1,6 +1,8 @@
 package ui;
 
-
+import bookHandling.Book;
+import algorithms.SelectionSort;
+import java.util.List;
 
 import java.awt.Color;
 
@@ -21,15 +23,15 @@ public class MenuFrame extends JPanel implements ActionListener {
     JLabel topTenLabel;
     JLabel bottomBorderLabel;
     JTextArea topTenTextArea;
+    JScrollPane topTenScrollPane;
     JButton catalogButton;
-    JButton specificsButton;
     JButton addDeleteButton;
 
     public MenuFrame(MainFrame frame) {
         this.frame = frame;
 
         this.setLayout(null);
-        this.setBackground(new Color(235,220,190));
+        this.setBackground(new Color(233, 218, 189));
 
         //JLabels
         topBorderLabel = new JLabel("║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║ ║");
@@ -65,11 +67,13 @@ public class MenuFrame extends JPanel implements ActionListener {
         //Top Ten Box
         topTenTextArea = new JTextArea("Top Ten List Goes Here");
         topTenTextArea.setFont(new Font("Serif", Font.PLAIN, 16));
-        topTenTextArea.setBounds(50,210,300,230);
         topTenTextArea.setBackground(new Color(235,220,190));
         topTenTextArea.setForeground(new Color(100,65,35));
         topTenTextArea.setBorder(new BevelBorder(BevelBorder.LOWERED));
         topTenTextArea.setEditable(false);
+        topTenScrollPane = new JScrollPane(topTenTextArea,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        topTenScrollPane.setBounds(50,210,300,230);
+
 
         //Buttons
         catalogButton = new JButton("Catalog");
@@ -80,18 +84,10 @@ public class MenuFrame extends JPanel implements ActionListener {
         catalogButton.setForeground(new Color(235,220,190));
         catalogButton.setBorder(new BevelBorder(BevelBorder.RAISED));
 
-        specificsButton = new JButton("Specifics");
-        specificsButton.addActionListener(this);
-        specificsButton.setFont(new Font("Serif", Font.PLAIN, 20));
-        specificsButton.setBounds(450,290,250,60);
-        specificsButton.setBackground(new Color(100,65,35));
-        specificsButton.setForeground(new Color(235,220,190));
-        specificsButton.setBorder(new BevelBorder(BevelBorder.RAISED));
-
         addDeleteButton = new JButton("Add/Delete Book");
         addDeleteButton.addActionListener(this);
         addDeleteButton.setFont(new Font("Serif", Font.PLAIN, 20));
-        addDeleteButton.setBounds(450,360,250,60);
+        addDeleteButton.setBounds(450,300,250,60);
         addDeleteButton.setBackground(new Color(100,65,35));
         addDeleteButton.setForeground(new Color(235,220,190));
         addDeleteButton.setBorder(new BevelBorder(BevelBorder.RAISED));
@@ -101,23 +97,33 @@ public class MenuFrame extends JPanel implements ActionListener {
         this.add(menuChoiceLabel);
         this.add(topTenLabel);
         this.add(bottomBorderLabel);
-        this.add(topTenTextArea);
+        this.add(topTenScrollPane);
         this.add(catalogButton);
-        this.add(specificsButton);
         this.add(addDeleteButton);
 
         this.setVisible(true);
+    }
+
+    public void displayTopTenBooks() {
+        List<Book> books = frame.getBooks();
+        SelectionSort.selection(books); //using Kyles method to populate the book object
+
+        topTenTextArea.setText(""); //clean slate like in the catalog box
+        int i;
+
+        for (i=0;i<10 && i < books.size(); ++i){
+            Book book = books.get(i);
+
+            topTenTextArea.append((i + 1) + "- " + book.getTitle() + " - Rating: " + book.getAverage_rating() + "\n");
+        }
     }
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == catalogButton) {
             frame.showScreen("BookCatalog");
         }
-        if (e.getSource() == specificsButton) {
-            frame.showScreen("BookSpecificts");
-        }
         if (e.getSource() == addDeleteButton) {
-            frame.showScreen("Add/Delete Book");
+            JOptionPane.showMessageDialog(null, "Feature Coming Soon", "Add/Delete Book", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 }

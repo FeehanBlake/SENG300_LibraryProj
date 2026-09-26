@@ -95,6 +95,12 @@ public class LaunchFrame extends JPanel implements ActionListener {
                 return;
             }
 
+            if (arrayListCheckBox.isSelected()) {
+                frame.choiceDataStructure("ArrayList");
+            }
+            else {
+                frame.choiceDataStructure("LinkedList");
+            }
 
             // Continue to menu panel after validation
             frame.showScreen("Menu");
