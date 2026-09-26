@@ -1,5 +1,10 @@
 package ui;
 
+import bookHandling.Book;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import java.awt.CardLayout;
 import java.awt.Color;
 import javax.swing.JFrame;
@@ -9,6 +14,7 @@ public class MainFrame extends JFrame{
 
     CardLayout layout = new CardLayout();
     JPanel mainPanel = new JPanel(layout);
+    List<Book> books;
 
     MainFrame() {
         this.setTitle("Library Application");

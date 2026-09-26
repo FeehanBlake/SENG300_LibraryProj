@@ -1,5 +1,7 @@
 package ui;
 
+
+
 import java.awt.Color;
 
 import java.awt.Font;
@@ -20,7 +22,7 @@ public class MenuFrame extends JPanel implements ActionListener {
     JLabel bottomBorderLabel;
     JTextArea topTenTextArea;
     JButton catalogButton;
-    JButton specifictsButton;
+    JButton specificsButton;
     JButton addDeleteButton;
 
     public MenuFrame(MainFrame frame) {
@@ -78,13 +80,13 @@ public class MenuFrame extends JPanel implements ActionListener {
         catalogButton.setForeground(new Color(235,220,190));
         catalogButton.setBorder(new BevelBorder(BevelBorder.RAISED));
 
-        specifictsButton = new JButton("Specifics");
-        specifictsButton.addActionListener(this);
-        specifictsButton.setFont(new Font("Serif", Font.PLAIN, 20));
-        specifictsButton.setBounds(450,290,250,60);
-        specifictsButton.setBackground(new Color(100,65,35));
-        specifictsButton.setForeground(new Color(235,220,190));
-        specifictsButton.setBorder(new BevelBorder(BevelBorder.RAISED));
+        specificsButton = new JButton("Specifics");
+        specificsButton.addActionListener(this);
+        specificsButton.setFont(new Font("Serif", Font.PLAIN, 20));
+        specificsButton.setBounds(450,290,250,60);
+        specificsButton.setBackground(new Color(100,65,35));
+        specificsButton.setForeground(new Color(235,220,190));
+        specificsButton.setBorder(new BevelBorder(BevelBorder.RAISED));
 
         addDeleteButton = new JButton("Add/Delete Book");
         addDeleteButton.addActionListener(this);
@@ -101,7 +103,7 @@ public class MenuFrame extends JPanel implements ActionListener {
         this.add(bottomBorderLabel);
         this.add(topTenTextArea);
         this.add(catalogButton);
-        this.add(specifictsButton);
+        this.add(specificsButton);
         this.add(addDeleteButton);
 
         this.setVisible(true);
@@ -111,7 +113,7 @@ public class MenuFrame extends JPanel implements ActionListener {
         if (e.getSource() == catalogButton) {
             frame.showScreen("BookCatalog");
         }
-        if (e.getSource() == specifictsButton) {
+        if (e.getSource() == specificsButton) {
             frame.showScreen("BookSpecificts");
         }
         if (e.getSource() == addDeleteButton) {
