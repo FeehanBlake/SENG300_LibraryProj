@@ -75,7 +75,7 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
         searchComboBox.setBounds(370,120,130,30);
         searchComboBox.setBackground(new Color(233, 218, 189));
         searchComboBox.setForeground(new Color(100, 65, 35));
-        searchComboBox.addItem("Book ID");
+        searchComboBox.addItem("Book ID (1-99)");
         searchComboBox.addItem("ISBN");
 
         searchButton = new JButton("Search");
@@ -168,7 +168,7 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
             List<Book> books = frame.getBooks();
             Book result = null; //empty for if/when its found
 
-            if (searchAction.equals("Book ID")){
+            if (searchAction.equals("Book ID (1-99)")){
                 try {
                     int bookID = Integer.parseInt(searchText); //only as type Integer
 
