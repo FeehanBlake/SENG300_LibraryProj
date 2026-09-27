@@ -2,11 +2,13 @@ package ui;
 
 import bookHandling.Book;
 import algorithms.Search;
+import algorithms.SelectionSort;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List; //needed to import had bug - duh
 
 public class BookCatalogFrame extends JPanel implements ActionListener {
@@ -174,7 +176,9 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
 
                     //choosing search method based on datatype choice from user
                     if (frame.getDataStructureChoice().equals("ArrayList")){
-                        result = Search.binarySearchBooks(books, bookID);
+                        List<Book> searchPurposeList = new ArrayList<>(books); //created copy
+                        SelectionSort.ascBookID(searchPurposeList); //sorted this copy so we can search corretly
+                        result = Search.binarySearchBooks(searchPurposeList, bookID);
                     }
                     if (frame.getDataStructureChoice().equals("LinkedList")){
                         result = Search.linearSearchBooks(books, bookID);
@@ -188,6 +192,8 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
             if (searchAction.equals("ISBN")){
                 //choosing search method based on datatype choice from user
                 if (frame.getDataStructureChoice().equals("ArrayList")){
+                    List<Book> searchPurposeList = new ArrayList<>(books); //created copy
+                    SelectionSort.ascISBN(searchPurposeList); //sorted this copy so we can search corretly
                     result = Search.binarySearchBooks(books, searchText);
                 }
                 if (frame.getDataStructureChoice().equals("LinkedList")){
@@ -209,9 +215,25 @@ public class BookCatalogFrame extends JPanel implements ActionListener {
             }
         }
         if (e.getSource() == sortButton){
+            List<Book> books = frame.getBooks();
             String sortAction = sortComboBox.getSelectedItem().toString();
 
-            JOptionPane.showMessageDialog(null, "Sort Option: " + sortAction, "Sort Result: Add result", JOptionPane.INFORMATION_MESSAGE);
+
+            if (sortAction.equals("Author (ascending)")){
+                SelectionSort.ascAuthors(books);
+            }
+            else if (sortAction.equals("Author (descending)")){
+                SelectionSort.descAuthors(books);
+            }
+            else if (sortAction.equals("Publication Year (ascending)")){
+                SelectionSort.ascPublicationYear(books);
+            }
+            else if (sortAction.equals("Publication Year (descending)")){
+                SelectionSort.decPublicationYear(books);
+            }
+
+            displayBooks();
+
         }
         if (e.getSource() == backButton){
             frame.showScreen("Menu");
